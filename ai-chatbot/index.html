@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Customer Service &amp; Workflow Orchestration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-400-normal.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-500-normal.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-700-normal.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-900-normal.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="top-nav">
+  <a href="../index.html">Home</a>
+  <span class="nav-sep">|</span>
+  <a href="../ai-chatbot/index.html" class="nav-active">Customer Service &amp; Orchestration</a>
+  <span class="nav-sep">|</span>
+  <a href="../ai-product-content/index.html">Product Content Generation</a>
+  <span class="nav-sep">|</span>
+  <a href="https://github.com/gbolask24/multi-provider-llm-proxy" target="_blank">LLM Proxy</a>
+  <span class="nav-sep">|</span>
+  <a href="https://github.com/gbolask24/ai-ops-monitor" target="_blank">AI Ops Monitor</a>
+</nav>
+<div class="deck">
+
+  <!-- SLIDE 1 — TITLE -->
+  <div class="slide active" style="background: radial-gradient(ellipse 55% 35% at 50% 48%, rgba(245,158,11,.05) 0%, transparent 70%);">
+    <div class="slide-label">Architecture Walkthrough</div>
+    <h1 class="slide-title"><span class="accent-text">AI-Powered</span> Customer Service &amp; Workflow Orchestration</h1>
+    <p class="slide-sub">AI-first support platform with LLM-driven routing, tool invocation, AI voice assistants, multi-provider abstraction, and production observability across 5 stores.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">RAG</span>
+      <span class="hero-tag">Orchestration</span>
+      <span class="hero-tag">Multi-Provider</span>
+      <span class="hero-tag">Tool Invocation</span>
+      <span class="hero-tag">Guardrails</span>
+      <span class="hero-tag">Grafana</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — PROBLEM & GOALS -->
+  <div class="slide">
+    <div class="slide-label">01 &mdash; Context</div>
+    <h2 class="slide-heading">Problem &amp; Objectives</h2>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title"><span class="badge badge-red">Challenges</span></div>
+        <ul class="card-list">
+          <li><span class="dot-red"></span> Fragmented support across chat, email, forms</li>
+          <li><span class="dot-red"></span> Manual workflows across disconnected systems</li>
+          <li><span class="dot-red"></span> Inconsistent response quality at scale</li>
+          <li><span class="dot-red"></span> Agents searching ERP, CRM, order systems manually</li>
+          <li><span class="dot-red"></span> Customer satisfaction declining under volume</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="badge badge-green">Goals</span></div>
+        <ul class="card-list">
+          <li><span class="dot-green"></span> Unified AI-driven routing across all channels</li>
+          <li><span class="dot-green"></span> Automated tool invocation (ERP, CRM, couriers)</li>
+          <li><span class="dot-green"></span> Policy-based workflow execution</li>
+          <li><span class="dot-green"></span> Validated, structured outputs with guardrails</li>
+          <li><span class="dot-green"></span> Production observability via Grafana</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — ARCHITECTURE -->
+  <div class="slide">
+    <div class="slide-label">02 &mdash; System Design</div>
+    <h2 class="slide-heading">End-to-End Architecture</h2>
+    <div class="arch-flow">
+      <div class="arch-node">
+        <span class="arch-icon">&#128100;</span>
+        <div class="arch-label">User Query</div>
+        <div class="arch-sub">chat / email / form</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128268;</span>
+        <div class="arch-label">API Layer</div>
+        <div class="arch-sub">REST / webhook</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128300;</span>
+        <div class="arch-label">Intent &amp; Route</div>
+        <div class="arch-sub">classify / policy</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128269;</span>
+        <div class="arch-label">Retrieval</div>
+        <div class="arch-sub">trusted sources</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#129302;</span>
+        <div class="arch-label">LLM Generate</div>
+        <div class="arch-sub">multi-provider</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128737;</span>
+        <div class="arch-label">Validate</div>
+        <div class="arch-sub">schema + rules</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-end">
+        <div class="arch-node arch-pass">
+          <span class="arch-icon">&#9989;</span>
+          <div class="arch-label">Response</div>
+        </div>
+        <div style="height:.6rem;"></div>
+        <div class="arch-node arch-esc">
+          <span class="arch-icon">&#128101;</span>
+          <div class="arch-label">Escalate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — ORCHESTRATION & ROUTING -->
+  <div class="slide">
+    <div class="slide-label">03 &mdash; Orchestration</div>
+    <h2 class="slide-heading">Routing &amp; Tool Invocation</h2>
+    <div class="arch-flow" style="margin-bottom:1.5rem;">
+      <div class="arch-node">
+        <span class="arch-icon">&#128229;</span>
+        <div class="arch-label">Request</div>
+        <div class="arch-sub">any channel</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128300;</span>
+        <div class="arch-label">Intent Classify</div>
+        <div class="arch-sub">LLM analysis</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128203;</span>
+        <div class="arch-label">Policy Check</div>
+        <div class="arch-sub">rules / scope</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128295;</span>
+        <div class="arch-label">Tool Invoke</div>
+        <div class="arch-sub">API / service</div>
+      </div>
+    </div>
+    <div class="chip-grid" style="max-width:750px;">
+      <div class="chip"><span class="chip-dot"></span> Order Lookup</div>
+      <div class="chip"><span class="chip-dot"></span> Shipment Tracking</div>
+      <div class="chip"><span class="chip-dot"></span> Invoice Request</div>
+      <div class="chip"><span class="chip-dot"></span> ERP / CRM Sync</div>
+      <div class="chip"><span class="chip-dot"></span> Support Escalation</div>
+      <div class="chip"><span class="chip-dot"></span> FAQ / General</div>
+      <div class="chip"><span class="chip-dot"></span> Document Generation</div>
+      <div class="chip"><span class="chip-dot"></span> Data Enrichment</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — TOOL INVOCATION -->
+  <div class="slide">
+    <div class="slide-label">04 &mdash; Execution Layer</div>
+    <h2 class="slide-heading">Enterprise Integrations</h2>
+    <div class="deploy-grid">
+      <div class="deploy-item">
+        <div class="deploy-icon">&#128722;</div>
+        <div><h4>Order System</h4><p>Status lookup, history, returns</p></div>
+      </div>
+      <div class="deploy-item">
+        <div class="deploy-icon">&#127981;</div>
+        <div><h4>ERP (BC)</h4><p>Sales orders, shipment lines</p></div>
+      </div>
+      <div class="deploy-item">
+        <div class="deploy-icon">&#128666;</div>
+        <div><h4>Courier Tracking</h4><p>Shipment status, ETA, location</p></div>
+      </div>
+      <div class="deploy-item">
+        <div class="deploy-icon">&#128451;</div>
+        <div><h4>Data Store</h4><p>Supplementary records</p></div>
+      </div>
+      <div class="deploy-item">
+        <div class="deploy-icon">&#128172;</div>
+        <div><h4>Support Platform</h4><p>Webhook intake, conversation API</p></div>
+      </div>
+      <div class="deploy-item">
+        <div class="deploy-icon">&#128196;</div>
+        <div><h4>Document Engine</h4><p>Invoice render, notifications</p></div>
+      </div>
+      <div class="deploy-item">
+        <div class="deploy-icon">&#128737;</div>
+        <div><h4>PII Masking</h4><p>Sanitise data before LLM</p></div>
+      </div>
+      <div class="deploy-item">
+        <div class="deploy-icon">&#127908;</div>
+        <div><h4>AI Voice Assistants</h4><p>Voice-based support channel</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 — MULTI-PROVIDER -->
+  <div class="slide">
+    <div class="slide-label">05 &mdash; Provider Abstraction</div>
+    <h2 class="slide-heading">Multi-Provider AI Platform</h2>
+    <div class="arch-flow" style="margin-bottom:1.5rem;">
+      <div class="arch-node">
+        <span class="arch-icon">&#129302;</span>
+        <div class="arch-label">AI Request</div>
+        <div class="arch-sub">inference call</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128300;</span>
+        <div class="arch-label">Model Router</div>
+        <div class="arch-sub">provider select</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-end">
+        <div class="arch-node"><span class="arch-icon">&#9679;</span><div class="arch-label">Anthropic</div></div>
+        <div style="height:.4rem;"></div>
+        <div class="arch-node"><span class="arch-icon">&#9679;</span><div class="arch-label">OpenAI</div></div>
+        <div style="height:.4rem;"></div>
+        <div class="arch-node"><span class="arch-icon">&#9679;</span><div class="arch-label">Google</div></div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-pass">
+        <span class="arch-icon">&#128203;</span>
+        <div class="arch-label">Normalised</div>
+        <div class="arch-sub">unified response</div>
+      </div>
+    </div>
+    <div class="chip-grid" style="max-width:750px;">
+      <div class="chip"><span class="chip-dot"></span> Provider Switching</div>
+      <div class="chip"><span class="chip-dot"></span> Fallback Chains</div>
+      <div class="chip"><span class="chip-dot"></span> Cost-Based Routing</div>
+      <div class="chip"><span class="chip-dot"></span> Unified Interface</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 — GUARDRAILS -->
+  <div class="slide">
+    <div class="slide-label">06 &mdash; Reliability</div>
+    <h2 class="slide-heading">Guardrails &amp; Validation</h2>
+    <div class="guard-grid">
+      <div class="guard-card">
+        <div class="guard-icon">&#128203;</div>
+        <h4>JSON Schema Enforcement</h4>
+        <p>Strict output structure</p>
+      </div>
+      <div class="guard-card">
+        <div class="guard-icon">&#128270;</div>
+        <h4>Regex / Rule Checks</h4>
+        <p>Pattern validation</p>
+      </div>
+      <div class="guard-card">
+        <div class="guard-icon">&#128260;</div>
+        <h4>Fallback &amp; Retry</h4>
+        <p>Configurable per intent</p>
+      </div>
+      <div class="guard-card">
+        <div class="guard-icon">&#128737;</div>
+        <h4>Policy Enforcement</h4>
+        <p>Scope, permissions, safety</p>
+      </div>
+      <div class="guard-card">
+        <div class="guard-icon">&#128101;</div>
+        <h4>Human Escalation</h4>
+        <p>Low-confidence handoff</p>
+      </div>
+      <div class="guard-card">
+        <div class="guard-icon">&#128683;</div>
+        <h4>Hallucination Mitigation</h4>
+        <p>Grounded in retrieved context</p>
+      </div>
+      <div class="guard-card">
+        <div class="guard-icon">&#9989;</div>
+        <h4>Unit &amp; Integration Tests</h4>
+        <p>Automated, CI-gated</p>
+      </div>
+      <div class="guard-card">
+        <div class="guard-icon">&#128274;</div>
+        <h4>Auth &amp; Security</h4>
+        <p>OAuth, RBAC, PII masking</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8 — MONITORING (Grafana) -->
+  <div class="slide">
+    <div class="slide-label">07 &mdash; Observability</div>
+    <h2 class="slide-heading">Monitoring &amp; Evaluation</h2>
+    <div class="dashboard">
+      <div class="dash-header">
+        <div class="dash-status"><span class="status-dot"></span> Production Health &mdash; Grafana</div>
+        <div class="dash-time">Postgres &nbsp;|&nbsp; Auto-refresh</div>
+      </div>
+      <div class="dash-metrics">
+        <div class="dash-metric">
+          <div class="metric-label">Avg Latency</div>
+          <div class="metric-val val-amber">1.2s</div>
+          <div class="metric-note note-good">&#9660; 18%</div>
+        </div>
+        <div class="dash-metric">
+          <div class="metric-label">Resolution Rate</div>
+          <div class="metric-val val-green">75%</div>
+          <div class="metric-note note-good">automated</div>
+        </div>
+        <div class="dash-metric">
+          <div class="metric-label">Schema Pass</div>
+          <div class="metric-val val-green">97.3%</div>
+          <div class="metric-note note-good">&#9650; 2.1%</div>
+        </div>
+        <div class="dash-metric">
+          <div class="metric-label">CSAT</div>
+          <div class="metric-val val-text">&gt;90%</div>
+          <div class="metric-note note-muted">maintained</div>
+        </div>
+        <div class="dash-metric">
+          <div class="metric-label">Escalation</div>
+          <div class="metric-val val-amber">8.4%</div>
+          <div class="metric-note note-warn">target &lt; 10%</div>
+        </div>
+      </div>
+      <div class="dash-bars">
+        <div class="dash-bar-cell"><div class="bar-label">p50: 0.8s / p99: 2.4s</div><div class="mini-bar"><div class="mini-bar-fill fill-amber" style="width:72%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">auto resolution</div><div class="mini-bar"><div class="mini-bar-fill fill-green" style="width:75%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">schema pass rate</div><div class="mini-bar"><div class="mini-bar-fill fill-green" style="width:97%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">review score: 4.5</div><div class="mini-bar"><div class="mini-bar-fill fill-green" style="width:90%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">human handoff</div><div class="mini-bar"><div class="mini-bar-fill fill-amber" style="width:16%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9 — CLOUD-NATIVE -->
+  <div class="slide">
+    <div class="slide-label">08 &mdash; Cloud-Native Engineering</div>
+    <h2 class="slide-heading">Deployment &amp; Infrastructure</h2>
+    <div class="deploy-grid">
+      <div class="deploy-item"><div class="deploy-icon">&#128230;</div><div><h4>Docker / Kubernetes</h4><p>Containerised, multi-stage builds</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#9889;</div><div><h4>Microservices / API-First</h4><p>Versioned REST, webhook intake</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128268;</div><div><h4>Event-Driven &amp; Serverless</h4><p>Azure Functions, async workers</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#9729;</div><div><h4>Cloud Hosting</h4><p>Azure / VPS, environment isolation</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128279;</div><div><h4>Secure Integrations</h4><p>OAuth, authenticated API calls</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128200;</div><div><h4>Grafana &amp; Monitoring</h4><p>Postgres telemetry, dashboards</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128295;</div><div><h4>CI/CD (GitHub Actions)</h4><p>Reproducible builds, staged releases</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128683;</div><div><h4>Production Ops</h4><p>Troubleshooting, rollback, tuning</p></div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10 — BUSINESS IMPACT -->
+  <div class="slide">
+    <div class="slide-label">09 &mdash; Business Impact</div>
+    <h2 class="slide-heading">Measurable Outcomes</h2>
+    <div class="impact-row">
+      <div class="impact-card">
+        <div class="impact-icon">&#129302;</div>
+        <div class="impact-val">75%</div>
+        <div class="impact-label">Auto Resolution</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#9989;</div>
+        <div class="impact-val">&gt;90%</div>
+        <div class="impact-label">CSAT Maintained</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#11088;</div>
+        <div class="impact-val">4.5</div>
+        <div class="impact-label">Review Score</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#128200;</div>
+        <div class="impact-val">5</div>
+        <div class="impact-label">Stores Unified</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#128737;</div>
+        <div class="impact-val">Prod</div>
+        <div class="impact-label">Enterprise Scale</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11 — DELIVERY -->
+  <div class="slide">
+    <div class="slide-label">10 &mdash; Delivery Approach</div>
+    <h2 class="slide-heading">Client Engagement &amp; Delivery</h2>
+    <div class="guard-grid" style="max-width:900px;">
+      <div class="guard-card"><div class="guard-icon">&#128269;</div><h4>Channel Mapping</h4><p>Mapped chat, email, form, voice touchpoints. Identified 15+ intent categories with the support team lead.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128221;</div><h4>Single-Channel POC</h4><p>Prototyped live chat first. Validated routing accuracy and tone before expanding to email and forms.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128101;</div><h4>Workshops with Ops</h4><p>2-hour sessions with support leads to define escalation thresholds, policy rules, and response tone.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128640;</div><h4>Store-by-Store Rollout</h4><p>Deployed to 1 store, validated for 2 weeks, then scaled to all 5 stores with env promotion.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128200;</div><h4>Grafana Feedback Loops</h4><p>Weekly review of resolution rate, escalation trends, and CSAT. Drove prompt and routing refinements.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128172;</div><h4>Exec Reporting</h4><p>Monthly trade-off presentations to non-technical stakeholders on cost, quality, and automation rate.</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12 — KNOWLEDGE SHARING -->
+  <div class="slide">
+    <div class="slide-label">11 &mdash; Knowledge Sharing</div>
+    <h2 class="slide-heading">Reusable Patterns &amp; Documentation</h2>
+    <div class="guard-grid" style="max-width:900px;">
+      <div class="guard-card"><div class="guard-icon">&#128203;</div><h4>Routing Playbook</h4><p>Documented intent categories, escalation rules, and policy logic for team onboarding</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128268;</div><h4>Integration Patterns</h4><p>Reusable API connector patterns for ERP, CRM, and courier systems</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128737;</div><h4>Guardrail Templates</h4><p>Shared validation schemas and fallback logic across all 5 store deployments</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128221;</div><h4>Prompt Library</h4><p>Versioned prompt templates with iteration history and accuracy benchmarks</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128200;</div><h4>Dashboard Templates</h4><p>Grafana dashboard configs reusable across new store deployments</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128101;</div><h4>Team Onboarding</h4><p>Internal walkthroughs for support teams adopting AI-assisted workflows</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 13 — ENGINEERING DEPTH -->
+  <div class="slide">
+    <div class="slide-label">11 &mdash; Engineering Depth</div>
+    <h2 class="slide-heading">Skills Demonstrated</h2>
+    <div class="chip-grid">
+      <div class="chip"><span class="chip-dot"></span> Python / FastAPI</div>
+      <div class="chip"><span class="chip-dot"></span> n8n Orchestration</div>
+      <div class="chip"><span class="chip-dot"></span> Multi-Provider (OpenAI / Anthropic)</div>
+      <div class="chip"><span class="chip-dot"></span> RAG Architecture</div>
+      <div class="chip"><span class="chip-dot"></span> Policy-Based Routing</div>
+      <div class="chip"><span class="chip-dot"></span> Tool Invocation</div>
+      <div class="chip"><span class="chip-dot"></span> ERP / CRM Integration</div>
+      <div class="chip"><span class="chip-dot"></span> JSON Schema Validation</div>
+      <div class="chip"><span class="chip-dot"></span> Docker / Kubernetes</div>
+      <div class="chip"><span class="chip-dot"></span> Grafana / Postgres</div>
+      <div class="chip"><span class="chip-dot"></span> CI/CD (GitHub Actions)</div>
+      <div class="chip"><span class="chip-dot"></span> Integration Testing</div>
+    </div>
+    <div style="display:flex; gap:.8rem; margin-top:1.5rem; flex-wrap:wrap;">
+      <a href="https://github.com/gbolask24/multi-provider-llm-proxy" target="_blank" style="font-family:var(--mono); font-size:.72rem; font-weight:600; color:var(--amber); text-decoration:none; padding:.3rem .7rem; background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.2); border-radius:4px;">&#128279; multi-provider-llm-proxy</a>
+      <a href="https://github.com/gbolask24/ai-ops-monitor" target="_blank" style="font-family:var(--mono); font-size:.72rem; font-weight:600; color:var(--amber); text-decoration:none; padding:.3rem .7rem; background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.2); border-radius:4px;">&#128279; ai-ops-monitor</a>
+    </div>
+  </div>
+
+</div>
+<div class="progress"></div>
+<div class="slide-counter"></div>
+<div class="nav-hint">&#8592; &#8594; &nbsp; arrow keys to navigate</div>
+<script src="script.js"></script>
+</body>
+</html>

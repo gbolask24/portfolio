@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agentic Product Content Generation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-400-normal.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-500-normal.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-700-normal.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+    @font-face { font-family: 'Satoshi'; src: url('https://api.fontsource.org/v1/fonts/satoshi/latin-900-normal.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="top-nav">
+  <a href="../index.html">Home</a>
+  <span class="nav-sep">|</span>
+  <a href="../ai-chatbot/index.html">Customer Service &amp; Orchestration</a>
+  <span class="nav-sep">|</span>
+  <a href="../ai-product-content/index.html" class="nav-active">Product Content Generation</a>
+  <span class="nav-sep">|</span>
+  <a href="https://github.com/gbolask24/multi-provider-llm-proxy" target="_blank">LLM Proxy</a>
+  <span class="nav-sep">|</span>
+  <a href="https://github.com/gbolask24/ai-ops-monitor" target="_blank">AI Ops Monitor</a>
+</nav>
+<div class="deck">
+
+  <!-- SLIDE 1 — TITLE -->
+  <div class="slide active" style="background: radial-gradient(ellipse 55% 35% at 50% 48%, rgba(245,158,11,.05) 0%, transparent 70%);">
+    <div class="slide-label">Architecture Walkthrough</div>
+    <h1 class="slide-title"><span class="accent-text">AI Agentic</span> Product Content Generation</h1>
+    <p class="slide-sub">Automated supplier data ingestion, multi-agent content generation, and direct publishing to E-commerce &amp; ERP. Scaled from 12k to 40k+ SKUs.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">Multi-Agent</span>
+      <span class="hero-tag">RAG</span>
+      <span class="hero-tag">Pinecone</span>
+      <span class="hero-tag">E-commerce</span>
+      <span class="hero-tag">Grafana</span>
+      <span class="hero-tag">Production</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — PROBLEM & GOALS -->
+  <div class="slide">
+    <div class="slide-label">01 &mdash; Context</div>
+    <h2 class="slide-heading">Problem &amp; Objectives</h2>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title"><span class="badge badge-red">Challenges</span></div>
+        <ul class="card-list">
+          <li><span class="dot-red"></span> Supplier data inconsistent and unstructured</li>
+          <li><span class="dot-red"></span> Manual product creation slow and error-prone</li>
+          <li><span class="dot-red"></span> Content lacks SEO structure and consistency</li>
+          <li><span class="dot-red"></span> Catalogue stuck at 12k SKUs, limiting revenue</li>
+          <li><span class="dot-red"></span> No scalable pipeline from supplier to storefront</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="badge badge-green">Goals</span></div>
+        <ul class="card-list">
+          <li><span class="dot-green"></span> Config-driven ingestion from multiple sources</li>
+          <li><span class="dot-green"></span> Multi-agent content generation pipeline</li>
+          <li><span class="dot-green"></span> Pinecone RAG for taxonomy classification</li>
+          <li><span class="dot-green"></span> Schema-validated structured output</li>
+          <li><span class="dot-green"></span> Direct publishing to E-commerce and ERP</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — END-TO-END -->
+  <div class="slide">
+    <div class="slide-label">02 &mdash; System Design</div>
+    <h2 class="slide-heading">End-to-End Architecture</h2>
+    <div class="arch-flow">
+      <div class="arch-node">
+        <span class="arch-icon">&#128230;</span>
+        <div class="arch-label">Supplier Data</div>
+        <div class="arch-sub">APIs / PDFs / CSV</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128300;</span>
+        <div class="arch-label">Switchboard</div>
+        <div class="arch-sub">route by config</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#9986;</span>
+        <div class="arch-label">Parse &amp; Extract</div>
+        <div class="arch-sub">normalise</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#129302;</span>
+        <div class="arch-label">Agent Pipeline</div>
+        <div class="arch-sub">multi-agent pipeline</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128737;</span>
+        <div class="arch-label">Validate</div>
+        <div class="arch-sub">schema + rules</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-pass">
+        <span class="arch-icon">&#128640;</span>
+        <div class="arch-label">Publish</div>
+        <div class="arch-sub">E-commerce / ERP</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 — INGESTION -->
+  <div class="slide">
+    <div class="slide-label">03 &mdash; Ingestion Layer</div>
+    <h2 class="slide-heading">Config-Driven Data Routing</h2>
+    <div class="arch-flow" style="margin-bottom:1.5rem;">
+      <div class="arch-node">
+        <span class="arch-icon">&#128229;</span>
+        <div class="arch-label">SKU Input</div>
+        <div class="arch-sub">webhook trigger</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128300;</span>
+        <div class="arch-label">Switchboard</div>
+        <div class="arch-sub">route by config</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-end">
+        <div class="arch-node"><span class="arch-icon">&#128268;</span><div class="arch-label">EData API</div></div>
+        <div style="height:.3rem;"></div>
+        <div class="arch-node"><span class="arch-icon">&#127981;</span><div class="arch-label">EPIM API</div></div>
+        <div style="height:.3rem;"></div>
+        <div class="arch-node"><span class="arch-icon">&#128202;</span><div class="arch-label">Google Sheets</div></div>
+        <div style="height:.3rem;"></div>
+        <div class="arch-node"><span class="arch-icon">&#127760;</span><div class="arch-label">Web Scrape</div></div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-pass">
+        <span class="arch-icon">&#128203;</span>
+        <div class="arch-label">Centralise</div>
+        <div class="arch-sub">normalise + merge</div>
+      </div>
+    </div>
+    <div class="chip-grid" style="max-width:700px;">
+      <div class="chip"><span class="chip-dot"></span> PDF Datasheet Extraction</div>
+      <div class="chip"><span class="chip-dot"></span> Supplier API Integration</div>
+      <div class="chip"><span class="chip-dot"></span> Google Drive Storage</div>
+      <div class="chip"><span class="chip-dot"></span> Config-Driven Routing</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — RAG -->
+  <div class="slide">
+    <div class="slide-label">04 &mdash; Knowledge Layer</div>
+    <h2 class="slide-heading">RAG &amp; Taxonomy Pipeline</h2>
+    <div class="rag-layout">
+      <div class="rag-sources">
+        <div class="rag-src"><span>&#128230;</span> Supplier Datasheets</div>
+        <div class="rag-src"><span>&#128196;</span> Product Specs (PDF)</div>
+        <div class="rag-src"><span>&#128202;</span> API / Sheet Data</div>
+        <div class="rag-src"><span>&#128218;</span> Google Taxonomy</div>
+        <div class="rag-src"><span>&#127919;</span> E-commerce Categories</div>
+      </div>
+      <div class="rag-stages">
+        <div class="rag-connector"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="rag-stage"><div class="stage-icon">&#9986;</div><div class="stage-label">Chunking</div><div class="stage-detail">semantic splits<br>metadata tags</div></div>
+        <div class="rag-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="rag-stage"><div class="stage-icon">&#128290;</div><div class="stage-label">Embeddings</div><div class="stage-detail">OpenAI 1536-dim<br>batch encode</div></div>
+        <div class="rag-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="rag-stage"><div class="stage-icon">&#128451;</div><div class="stage-label">Pinecone</div><div class="stage-detail">semantic search<br>metadata filter</div></div>
+        <div class="rag-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="rag-stage"><div class="stage-icon">&#127919;</div><div class="stage-label">Context</div><div class="stage-detail">taxonomy match<br>category assign</div></div>
+        <div class="rag-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="rag-stage"><div class="stage-icon">&#129302;</div><div class="stage-label">LLM Input</div><div class="stage-detail">grounded prompt<br>structured context</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 — MULTI-AGENT -->
+  <div class="slide">
+    <div class="slide-label">05 &mdash; Agentic Layer</div>
+    <h2 class="slide-heading">Multi-Agent Orchestration</h2>
+    <div class="arch-flow" style="margin-bottom:1.2rem;">
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128300;</span>
+        <div class="arch-label">Category Agent</div>
+        <div class="arch-sub">60+ attribute sets</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128295;</span>
+        <div class="arch-label">Attribute Agents</div>
+        <div class="arch-sub">300+ values</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128221;</span>
+        <div class="arch-label">Content Agents</div>
+        <div class="arch-sub">title / meta / URL</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128196;</span>
+        <div class="arch-label">Bullet Points</div>
+        <div class="arch-sub">12-field structured</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-pass">
+        <span class="arch-icon">&#128640;</span>
+        <div class="arch-label">Publish</div>
+        <div class="arch-sub">E-commerce API</div>
+      </div>
+    </div>
+    <div class="guard-grid" style="max-width:900px;">
+      <div class="guard-card"><div class="guard-icon">&#128300;</div><h4>Category Selection</h4><p>AI assigns to 60+ e-commerce attribute sets from supplier data</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128295;</div><h4>Per-Attribute Extraction</h4><p>Individual agents for colour, IP rating, wattage, beam angle, cap fitting</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128203;</div><h4>Strict Allowed Values</h4><p>Each agent constrained to valid valid attribute options</p></div>
+      <div class="guard-card"><div class="guard-icon">&#129302;</div><h4>JSON-Only Output</h4><p>No markdown, no text. {sku, code, value} or "F" for not applicable</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 — CONTENT OUTPUT -->
+  <div class="slide">
+    <div class="slide-label">06 &mdash; Content Output</div>
+    <h2 class="slide-heading">Generated Product Content</h2>
+    <div class="guard-grid" style="max-width:900px;">
+      <div class="guard-card"><div class="guard-icon">&#128221;</div><h4>Product Titles &amp; Meta</h4><p>Brand + range + type format, quality-controlled, no fluff</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128196;</div><h4>12-Field Bullet Points</h4><p>Structured highlights parsed from AI into individual e-commerce fields</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128295;</div><h4>300+ Attribute Values</h4><p>IP rating, wattage, colour temp, beam angle, cap fitting, dimensions</p></div>
+      <div class="guard-card"><div class="guard-icon">&#127919;</div><h4>Google Taxonomy Match</h4><p>Pinecone vector search for product category classification</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128269;</div><h4>URL Keys &amp; Descriptions</h4><p>Clean URL keys, meta descriptions within character limits</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128230;</div><h4>Image &amp; Datasheet Assets</h4><p>Auto-download, cloud storage, e-commerce media upload</p></div>
+      <div class="guard-card"><div class="guard-icon">&#129302;</div><h4>Domain Prompt Engineering</h4><p>Per-attribute templates with allowed values, format rules, fallbacks</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128203;</div><h4>Strict JSON Schema</h4><p>Every agent: {sku, code, value}. "F" for missing. No exceptions.</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8 — GUARDRAILS -->
+  <div class="slide">
+    <div class="slide-label">07 &mdash; Reliability</div>
+    <h2 class="slide-heading">Validation &amp; Guardrails</h2>
+    <div class="guard-grid">
+      <div class="guard-card"><div class="guard-icon">&#128203;</div><h4>Schema Validation</h4><p>Strict JSON enforcement on every agent output</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128270;</div><h4>Allowed Value Checks</h4><p>Each attribute constrained to E-commerce option lists</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128260;</div><h4>Error Handling</h4><p>continueRegularOutput on every API call</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128683;</div><h4>Duplicate Detection</h4><p>SKU-level dedup and content comparison</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128295;</div><h4>Fallback Logic</h4><p>"F" response for inapplicable attributes</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128101;</div><h4>Manual Review Queue</h4><p>Flagged products for human verification</p></div>
+      <div class="guard-card"><div class="guard-icon">&#9989;</div><h4>Pipeline Testing</h4><p>End-to-end test harness, CI-gated</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128274;</div><h4>Secure API Handling</h4><p>Auth tokens, credential management</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9 — MONITORING (Grafana + Evaluation) -->
+  <div class="slide">
+    <div class="slide-label">08 &mdash; Observability &amp; Evaluation</div>
+    <h2 class="slide-heading">Monitoring &amp; Quality Scoring</h2>
+    <div class="dashboard">
+      <div class="dash-header">
+        <div class="dash-status"><span class="status-dot"></span> Pipeline Health &mdash; Grafana</div>
+        <div class="dash-time">Postgres &nbsp;|&nbsp; Auto-refresh</div>
+      </div>
+      <div class="dash-metrics">
+        <div class="dash-metric"><div class="metric-label">Gen Accuracy</div><div class="metric-val val-amber">94.2%</div><div class="metric-note note-good">&#9650; 3.1%</div></div>
+        <div class="dash-metric"><div class="metric-label">Error Rate</div><div class="metric-val val-green">1.8%</div><div class="metric-note note-good">&#9660; 0.9%</div></div>
+        <div class="dash-metric"><div class="metric-label">Avg Process</div><div class="metric-val val-text">4.2s</div><div class="metric-note note-muted">per product</div></div>
+        <div class="dash-metric"><div class="metric-label">Token Cost</div><div class="metric-val val-text">$0.03</div><div class="metric-note note-muted">per product</div></div>
+        <div class="dash-metric"><div class="metric-label">Published</div><div class="metric-val val-amber">40k+</div><div class="metric-note note-muted">total SKUs</div></div>
+      </div>
+      <div class="dash-bars">
+        <div class="dash-bar-cell"><div class="bar-label">schema pass rate</div><div class="mini-bar"><div class="mini-bar-fill fill-amber" style="width:94%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">attribute validity</div><div class="mini-bar"><div class="mini-bar-fill fill-green" style="width:92%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">latency p50</div><div class="mini-bar"><div class="mini-bar-fill fill-muted" style="width:65%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">cost budget</div><div class="mini-bar"><div class="mini-bar-fill fill-muted" style="width:42%"></div></div></div>
+        <div class="dash-bar-cell"><div class="bar-label">throughput</div><div class="mini-bar"><div class="mini-bar-fill fill-amber" style="width:78%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10 — EVALUATION & ITERATION -->
+  <div class="slide">
+    <div class="slide-label">09 &mdash; Evaluation &amp; Iteration</div>
+    <h2 class="slide-heading">Continuous Improvement</h2>
+    <div class="arch-flow" style="margin-bottom:1.2rem;">
+      <div class="arch-node">
+        <span class="arch-icon">&#128202;</span>
+        <div class="arch-label">Telemetry</div>
+        <div class="arch-sub">log every run</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-decision">
+        <span class="arch-icon">&#128300;</span>
+        <div class="arch-label">Evaluate</div>
+        <div class="arch-sub">accuracy scoring</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128270;</span>
+        <div class="arch-label">Root Cause</div>
+        <div class="arch-sub">failure analysis</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node">
+        <span class="arch-icon">&#128295;</span>
+        <div class="arch-label">Update</div>
+        <div class="arch-sub">prompts / rules</div>
+      </div>
+      <div class="arch-arrow"><svg viewBox="0 0 28 28" fill="none"><path d="M6 14h16m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="arch-node arch-pass">
+        <span class="arch-icon">&#128640;</span>
+        <div class="arch-label">Re-deploy</div>
+        <div class="arch-sub">measure again</div>
+      </div>
+    </div>
+    <div class="two-col" style="max-width:100%;">
+      <div class="card">
+        <div class="card-title" style="color:var(--amber);">Iteration Example</div>
+        <ul class="card-list">
+          <li><span class="dot-red"></span> Prompt v1: 87% attribute accuracy</li>
+          <li><span class="dot-green"></span> Added strict allowed-value constraints</li>
+          <li><span class="dot-green"></span> Added few-shot examples per attribute</li>
+          <li><span class="dot-green"></span> Prompt v2: 94.2% accuracy (+7.2%)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--amber);">What We Track</div>
+        <ul class="card-list">
+          <li><span class="dot-green"></span> Accuracy per attribute type</li>
+          <li><span class="dot-green"></span> Schema pass rate per category</li>
+          <li><span class="dot-green"></span> Token cost per product</li>
+          <li><span class="dot-green"></span> Failure patterns by data source</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11 — CLOUD-NATIVE -->
+  <div class="slide">
+    <div class="slide-label">09 &mdash; Cloud-Native Engineering</div>
+    <h2 class="slide-heading">Deployment &amp; Infrastructure</h2>
+    <div class="deploy-grid">
+      <div class="deploy-item"><div class="deploy-icon">&#128230;</div><div><h4>Docker / Kubernetes</h4><p>Containerised pipeline, isolated stages</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#9889;</div><div><h4>Microservices / API-First</h4><p>E-commerce API, ERP batch APIs</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128268;</div><div><h4>Event-Driven &amp; Serverless</h4><p>Webhook triggers, serverless workers</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#9729;</div><div><h4>Cloud Hosting</h4><p>Azure / VPS, environment isolation</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128279;</div><div><h4>Secure Integrations</h4><p>Authenticated E-commerce &amp; ERP calls</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128200;</div><div><h4>Grafana &amp; Monitoring</h4><p>Pipeline health, Postgres telemetry</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128295;</div><div><h4>CI/CD (GitHub Actions)</h4><p>Reproducible builds, staged deploys</p></div></div>
+      <div class="deploy-item"><div class="deploy-icon">&#128683;</div><div><h4>Production Ops</h4><p>Rollback, sync validation, tuning</p></div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11 — BUSINESS IMPACT -->
+  <div class="slide">
+    <div class="slide-label">10 &mdash; Business Impact</div>
+    <h2 class="slide-heading">Measurable Outcomes</h2>
+    <div class="impact-row">
+      <div class="impact-card">
+        <div class="impact-icon">&#128200;</div>
+        <div class="impact-val">40k+</div>
+        <div class="impact-label">SKUs (from 12k)</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#9201;</div>
+        <div class="impact-val">90%</div>
+        <div class="impact-label">Less Manual Work</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#128176;</div>
+        <div class="impact-val">300%+</div>
+        <div class="impact-label">Revenue Growth</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#128722;</div>
+        <div class="impact-val">+50%</div>
+        <div class="impact-label">AOV Increase</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">&#128101;</div>
+        <div class="impact-val">~80%</div>
+        <div class="impact-label">YoY Customer Growth</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12 — DELIVERY -->
+  <div class="slide">
+    <div class="slide-label">11 &mdash; Delivery Approach</div>
+    <h2 class="slide-heading">Client Engagement &amp; Delivery</h2>
+    <div class="guard-grid" style="max-width:900px;">
+      <div class="guard-card"><div class="guard-icon">&#128269;</div><h4>Workflow Audit</h4><p>Shadowed content team creating products manually. Timed each step. Identified 90% automation potential.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128221;</div><h4>Single-Category Pilot</h4><p>Ran downlights category first (200 SKUs). Validated attribute accuracy before expanding scope.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128101;</div><h4>Schema Co-Design</h4><p>Merchandising team defined quality standards. Shared attribute schema docs for iterative review.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128640;</div><h4>Category-by-Category</h4><p>Expanded from 1 to 60+ attribute sets over 6 months. Each category validated before the next.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128200;</div><h4>Prompt Iteration Cycles</h4><p>v1: 87% accuracy. Added few-shot examples and stricter constraints. v2: 94.2%. Tracked in Grafana.</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128172;</div><h4>Revenue Alignment</h4><p>Connected catalogue growth metrics to revenue outcomes for leadership. Data-driven scope decisions.</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 13 — KNOWLEDGE SHARING -->
+  <div class="slide">
+    <div class="slide-label">12 &mdash; Knowledge Sharing</div>
+    <h2 class="slide-heading">Reusable Patterns &amp; Documentation</h2>
+    <div class="guard-grid" style="max-width:900px;">
+      <div class="guard-card"><div class="guard-icon">&#128203;</div><h4>Attribute Prompt Library</h4><p>300+ versioned prompt templates with allowed values, format rules, and fallback logic</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128268;</div><h4>Ingestion Connectors</h4><p>Reusable switchboard patterns for adding new supplier data sources</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128737;</div><h4>Validation Schemas</h4><p>Shared JSON schemas and attribute constraint definitions across 60+ categories</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128221;</div><h4>Pipeline Runbook</h4><p>Step-by-step operational guide for troubleshooting, reruns, and category expansion</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128200;</div><h4>Monitoring Playbook</h4><p>Grafana dashboard configs and alert thresholds documented for ops handoff</p></div>
+      <div class="guard-card"><div class="guard-icon">&#128101;</div><h4>Category Onboarding</h4><p>Documented process for adding new attribute sets: schema, prompts, testing, deployment</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 14 — ENGINEERING DEPTH -->
+  <div class="slide">
+    <div class="slide-label">12 &mdash; Engineering Depth</div>
+    <h2 class="slide-heading">Skills Demonstrated</h2>
+    <div class="chip-grid">
+      <div class="chip"><span class="chip-dot"></span> Python / FastAPI</div>
+      <div class="chip"><span class="chip-dot"></span> n8n Multi-Agent Orchestration</div>
+      <div class="chip"><span class="chip-dot"></span> OpenAI Embeddings (1536-dim)</div>
+      <div class="chip"><span class="chip-dot"></span> Pinecone Vector Search</div>
+      <div class="chip"><span class="chip-dot"></span> E-commerce Platform API</div>
+      <div class="chip"><span class="chip-dot"></span> ERP Integration (BC)</div>
+      <div class="chip"><span class="chip-dot"></span> JSON Schema Validation</div>
+      <div class="chip"><span class="chip-dot"></span> Domain Prompt Engineering</div>
+      <div class="chip"><span class="chip-dot"></span> Docker / Kubernetes</div>
+      <div class="chip"><span class="chip-dot"></span> Grafana / Postgres</div>
+      <div class="chip"><span class="chip-dot"></span> CI/CD (GitHub Actions)</div>
+      <div class="chip"><span class="chip-dot"></span> Pipeline Testing</div>
+    </div>
+    <div style="display:flex; gap:.8rem; margin-top:1.5rem; flex-wrap:wrap;">
+      <a href="https://github.com/gbolask24/multi-provider-llm-proxy" target="_blank" style="font-family:var(--mono); font-size:.72rem; font-weight:600; color:var(--amber); text-decoration:none; padding:.3rem .7rem; background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.2); border-radius:4px;">&#128279; multi-provider-llm-proxy</a>
+      <a href="https://github.com/gbolask24/ai-ops-monitor" target="_blank" style="font-family:var(--mono); font-size:.72rem; font-weight:600; color:var(--amber); text-decoration:none; padding:.3rem .7rem; background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.2); border-radius:4px;">&#128279; ai-ops-monitor</a>
+    </div>
+  </div>
+
+</div>
+<div class="progress"></div>
+<div class="slide-counter"></div>
+<div class="nav-hint">&#8592; &#8594; &nbsp; arrow keys to navigate</div>
+<script src="script.js"></script>
+</body>
+</html>
